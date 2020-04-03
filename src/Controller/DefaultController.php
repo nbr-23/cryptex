@@ -24,4 +24,12 @@ class DefaultController extends AbstractController
     {
         return $this->render('default/home.html.twig');
     }
+
+    /**
+     * @Route("/blog/12", name="blog_show")
+     */
+    public function show()
+    {
+        return $this->render('default/show.html.twig');
+    }
 }
