@@ -2,10 +2,13 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
+
 use App\Entity\Article;
 use App\Repository\ArticleRepository;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Routing\Annotation\Route;
+
 
 class DefaultController extends AbstractController
 {
@@ -31,13 +34,33 @@ class DefaultController extends AbstractController
     }
 
     /**
+     * @Route("/blog/new", name="blog_create")
+     */
+    public function create(Request $request){
+
+       $article = new Article();
+       
+       $form = $this->createFormBuilder($article)
+                    ->add('title')
+                    ->add('content')
+                    ->add('image')
+                    ->getForm();
+
+        return $this->render('default/create.html.twig', [
+            'formArticle' => $form->createView()
+        ]);
+    }
+
+    /**
      * @Route("/blog/{id}", name="blog_show")
      */
     public function show(Article $article)
     {
        
-        return $this->render('default/show.html.twig', [
+        return $this->render('default/create.html.twig', [
             'article' => $article
         ]);
     }
+    
+    
 }
