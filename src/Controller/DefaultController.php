@@ -31,10 +31,14 @@ class DefaultController extends AbstractController
     }
 
     /**
-     * @Route("/blog/12", name="blog_show")
+     * @Route("/blog/{id}", name="blog_show")
      */
-    public function show()
+    public function show($id)
     {
-        return $this->render('default/show.html.twig');
+        $repo = $this->getDoctrine()->getRepository(Article::class);
+        $article = $repo->find($id);
+        return $this->render('default/show.html.twig', [
+            'article' => $article
+        ]);
     }
 }
