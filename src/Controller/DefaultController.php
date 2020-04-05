@@ -9,7 +9,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
-
 class DefaultController extends AbstractController
 {
     /**
@@ -57,7 +56,7 @@ class DefaultController extends AbstractController
     public function show(Article $article)
     {
        
-        return $this->render('default/create.html.twig', [
+        return $this->render('default/show.html.twig', [
             'article' => $article
         ]);
     }
