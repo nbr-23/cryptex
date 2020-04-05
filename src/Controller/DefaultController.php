@@ -8,6 +8,8 @@ use App\Repository\ArticleRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+use Doctrine\ORM\EntityManagerInterface;
+use App\Form\ArticleType;
 
 class DefaultController extends AbstractController
 {
@@ -23,7 +25,7 @@ class DefaultController extends AbstractController
             'articles' => $articles
         ]);
     }
-    
+
     /**
      * @Route("/home", name="home")
      */
@@ -34,19 +36,35 @@ class DefaultController extends AbstractController
 
     /**
      * @Route("/blog/new", name="blog_create")
+     * @ROute("/blog/{id}/edit", name="blog_edit")
      */
-    public function create(Request $request){
+    public function form(Article $article = null, Request $request)
+    {
 
-       $article = new Article();
-       
-       $form = $this->createFormBuilder($article)
-                    ->add('title')
-                    ->add('content')
-                    ->add('image')
-                    ->getForm();
+        $entityManager = $this->getDoctrine()->getManager();
+
+        if (!$article) {
+            $article = new Article();
+        }
+
+        $form = $this->createForm(ArticleType::class, $article);
+        $form->handleRequest($request);
+
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            if (!$article->getId()) {
+                $article->setCreatedAt(new \DateTime());
+            }
+            $entityManager->persist($article);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('blog_show', ['id' => $article->getId()]);
+        }
 
         return $this->render('default/create.html.twig', [
-            'formArticle' => $form->createView()
+            'formArticle' => $form->createView(),
+            'editMode' => $article->getId() !== null
         ]);
     }
 
@@ -55,11 +73,9 @@ class DefaultController extends AbstractController
      */
     public function show(Article $article)
     {
-       
+
         return $this->render('default/show.html.twig', [
             'article' => $article
         ]);
     }
-    
-    
 }
