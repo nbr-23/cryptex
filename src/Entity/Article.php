@@ -120,14 +120,6 @@ class Article
     }
 
 
-
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
-    {
-        $metadata->addPropertyConstraint('image', new Assert\Url([
-            'protocols' => ['http'],
-        ]));
-    }
-
     public function getCategory(): ?Category
     {
         return $this->category;
