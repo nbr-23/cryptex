@@ -48,6 +48,24 @@ class Article
      */
     private $category;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="article")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $comments;
+
+    public function getComments()
+    {
+        return $this->comments;
+    }
+
+    public function setComments(string $comments): self
+    {
+        $this->comments = $comments;
+        return $this;
+    }
+   
+
     public function getId(): ?int
     {
         return $this->id;

@@ -4,7 +4,7 @@
 <section class="articles">
     <article>
         <h2>{{article.title}}</h2>
-        <div class="metadata">Ecrit le {{article.createdAt | date('d/m/Y')}} à {{article.createdAt | date('H:i')}} dans la catégorie Politique</div>
+        <div class="metadata">Ecrit le {{article.createdAt | date('d/m/Y')}} à {{article.createdAt | date('H:i')}} dans la catégorie {{article.category.title}}</div>
         <div class="content">
             <img src="{{article.image}}" alt="">
             {{article.content | raw}}
@@ -13,5 +13,20 @@
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Id earum, assumenda eius cumque exercitationem, odio iure amet distinctio quam impedit inventore eum officiis, repellat aliquid beatae quisquam saepe. Veritatis hic nemo veniam provident omnis minima iusto. Autem voluptatibus placeat odit, nam consectetur odio minus laborum? Id blanditiis architecto nisi tempora.</p>
         <p>Illo aut tempore atque omnis temporibus enim voluptatem vitae rerum ut autem veniam ab, quibusdam praesentium maxime, labore odit animi. Modi excepturi est voluptas voluptatibus vitae quo soluta deleniti, veritatis delectus in assumenda fugit necessitatibus, molestiae, dolorem earum odio animi cupiditate? Commodi dolor maiores fuga optio dignissimos dolores delectus rem!</p>
     </article>
+    <section id="commentaires">
+        <h2> ----------- COMMENTAIRES -----------</h2>
+        {% for comment in article.comments %}
+        <div class="comment">
+            <div class="row">
+                <div class="col-12">
+                    ----------- {{comment.author}} <br/>(<small>{{comment.createdAt |date('d/m/Y à H:i') }}</small>)
+                </div>
+                <div class="col">
+                    {{comment.content | raw}}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </section>
 </section>
 {% endblock body %}
