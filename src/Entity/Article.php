@@ -12,6 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Article
 {
+   
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -21,40 +22,31 @@ class Article
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Length(min=10, max=255)
+     * @Assert\Length(min=10)
      */
     private $title;
 
     /**
      * @ORM\Column(type="text")
-     * @Assert\Length(min=10, max=255)
      */
     private $content;
 
-    
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Url(
-     *    message = "The url '{{ value }}' is not a valid url",
-     * )
+     * @Assert\Url(protocols = {"http"})
      */
-    
     private $image;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=false)
      */
     private $createdAt;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="article", orphanRemoval=true)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="articles")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $comments;
-
-    public function __construct()
-    {
-        $this->comments = new ArrayCollection();
-    }
+    private $category;
 
     public function getId(): ?int
     {
@@ -109,33 +101,23 @@ class Article
         return $this;
     }
 
-    /**
-     * @return Collection|Comment[]
-     */
-    public function getComments(): Collection
+
+
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
-        return $this->comments;
+        $metadata->addPropertyConstraint('image', new Assert\Url([
+            'protocols' => ['http'],
+        ]));
     }
 
-    public function addComment(Comment $comment): self
+    public function getCategory(): ?Category
     {
-        if (!$this->comments->contains($comment)) {
-            $this->comments[] = $comment;
-            $comment->setArticle($this);
-        }
-
-        return $this;
+        return $this->category;
     }
 
-    public function removeComment(Comment $comment): self
+    public function setCategory(?Category $category): self
     {
-        if ($this->comments->contains($comment)) {
-            $this->comments->removeElement($comment);
-            // set the owning side to null (unless already changed)
-            if ($comment->getArticle() === $this) {
-                $comment->setArticle(null);
-            }
-        }
+        $this->category = $category;
 
         return $this;
     }

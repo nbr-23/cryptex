@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20200406141819 extends AbstractMigration
+final class Version20200406171405 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -22,7 +22,9 @@ final class Version20200406141819 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('CREATE TABLE category (id INT AUTO_INCREMENT NOT NULL, title VARCHAR(255) NOT NULL, description LONGTEXT DEFAULT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('ALTER TABLE category DROP FOREIGN KEY FK_64C19C17294869C');
+        $this->addSql('DROP INDEX IDX_64C19C17294869C ON category');
+        $this->addSql('ALTER TABLE category DROP article_id');
     }
 
     public function down(Schema $schema) : void
@@ -30,6 +32,8 @@ final class Version20200406141819 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('DROP TABLE category');
+        $this->addSql('ALTER TABLE category ADD article_id INT NOT NULL');
+        $this->addSql('ALTER TABLE category ADD CONSTRAINT FK_64C19C17294869C FOREIGN KEY (article_id) REFERENCES article (id)');
+        $this->addSql('CREATE INDEX IDX_64C19C17294869C ON category (article_id)');
     }
 }
