@@ -1,27 +1,100 @@
-{% extends 'base.html.twig' %}
-
-{% form_theme formArticle 'bootstrap_4_layout.html.twig' %}
-
+{% extends "base.html.twig" %}
 {% block body %}
 
-<h1> Création d'un article !</h1>
+<header class="masthead"
+    style="background-image: url('https://iphonesoft.fr/images/_082019/fond-ecran-dynamique-macos-wallpaper-club.jpg')">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <div class="post-heading">
+                    {% if editMode %}
+                    <h2 class="subheading">Editer l'article</h2>
+                    {% else %}
+                    <h2 class="subheading">Ajouter l'article</h2>
+                    {% endif %}
 
-{{ form_start(formArticle)}}
+                </div>
 
-{{ form_row(formArticle.title, {'attr' : {'placeholder' : "Titre de l'article"}})}}
-{{ form_row(formArticle.category)}}
-{{ form_row(formArticle.content, {'attr' : {'placeholder': "Contenu de l'article"}})}}
-{{ form_row(formArticle.image, {'attr' : {'placeholder': "URL de l'Image"}})}}
+            </div>
+        </div>
+    </div>
+</header>
+<!-- Main Content -->
+<hr>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
 
-<button type="submit" class="btn btn-success">
-    {% if editMode %}
-        Enregister
-    {% else %}
-        Ajouter l'article
-    {% endif %}
+            {% if app.user %}
+            <div class="jumbotron create">
+                {{ form_start(formArticle)}}
 
-</button>
+                {{ form_row(formArticle.title, {'attr' : {'placeholder' : "Titre de l'article"}})}}
+                {{ form_row(formArticle.category)}}
+                {{ form_row(formArticle.content, {'attr' : {'placeholder': "Contenu de l'article"}})}}
+                {{ form_row(formArticle.image, {'attr' : {'placeholder': "URL de l'Image"}})}}
 
-{{ form_end(formArticle)}}
+                <button type="submit" class="btn btn-success">
+                    {% if editMode %}
+                    Enregister
+                    {% else %}
+                    Ajouter l'article
+                    {% endif %}
 
+                </button>
+
+                {{ form_end(formArticle)}}
+            </div>
+
+            {% else %}
+            <div class="text-center">
+                <h2>Connectez-vous pour cette action </h2><a class="btn btn-success"
+                    href="{{ path('security_login')}}">Connexion</a>
+            </div>
+            {% endif %}
+        </div>
+
+    </div>
+</div>
+</div>
+
+<hr>
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <ul class="list-inline text-center">
+                    <li class="list-inline-item">
+                        <a href="#">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="#">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="#">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+                <p class="copyright text-muted">Copyright &copy; Blog 2020</p>
+            </div>
+        </div>
+    </div>
+</footer>
 {% endblock body %}

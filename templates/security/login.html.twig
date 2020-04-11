@@ -1,14 +1,96 @@
 {% extends "base.html.twig" %}
-{% block body %}
-    <h1>Connexion</h1>
 
-    <form action="{{ path('security_login')}}" method="post" class="action">
-        <div class="form-group">
-            <input type="text" placeholder="Adresse email" required name="_username" class="form-control">
+{% block body %}
+<!-- Page Header -->
+<header class="masthead" style="background-image: url('img/post-bg.jpg')">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="post-heading">
+            <h1>Connexion</h1>
+          </div>
         </div>
-        <div class="form-group">
-            <input type="password" placeholder="Mot de passe" required name="_password" class="form-control">
+      </div>
+    </div>
+  </header>
+<!-- Main Content -->
+<hr>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+            
+            <!-- Contact Form - Enter your email address on line 19 of the mail/contact_me.php file to make this form work. -->
+            <!-- WARNING: Some web hosts do not allow emails to be sent through forms to common mail hosts like Gmail or Yahoo. It's recommended that you use a private domain email address! -->
+            <!-- To use the contact form, your site must be on a live web host with PHP! The form will not work locally! -->
+            <form action="{{ path('security_login')}}" method="post" class="action" name="sentMessage" id="contactForm"
+                novalidate>
+                <div class="control-group">
+                    <div class="form-group floating-label-form-group controls">
+                        <label>Email</label>
+                        <input type="email" name="_username"  class="form-control" placeholder="Email" id="email" required
+                            data-validation-required-message="Please enter your email address.">
+                        <p class="help-block text-danger"></p>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="form-group floating-label-form-group controls">
+                        <label>Mot de passe</label>
+                        <input required name="_password" type="password" class="form-control" placeholder="Mot de passe" id="name"
+                            required data-validation-required-message="Please enter your name.">
+                        <p class="help-block text-danger"></p>
+                    </div>
+                </div>
+                <br>
+                <div id="success"></div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary" id="sendMessageButton">Connexion</button>
+                </div>
+            </form>
+            <hr>
+            <div>
+                <p>Pas encore inscrit ? <a href="{{ path('security_registration')}}">S'inscrire</a></p>
+            </div>
         </div>
-        <button type="submit" class="btn btn-success">Connexion</button>
-    </form>
+    </div>
+</div>
+
+<hr>
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <ul class="list-inline text-center">
+                    <li class="list-inline-item">
+                        <a href="#">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="#">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="#">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+                <p class="copyright text-muted">Copyright &copy; Blog 2020</p>
+            </div>
+        </div>
+    </div>
+</footer>
 {% endblock body %}

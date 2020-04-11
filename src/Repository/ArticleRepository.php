@@ -19,22 +19,33 @@ class ArticleRepository extends ServiceEntityRepository
         parent::__construct($registry, Article::class);
     }
 
+    public function setMax()
+    {
+        $qb = $this->createQueryBuilder('a')
+            ->orderBy('a.createdAt', 'DESC')
+            ->setFirstResult(0)
+            ->setMaxResults(4);
+
+        return $qb->getQuery()->getResult();
+    }
+
     // /**
     //  * @return Article[] Returns an array of Article objects
     //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('a.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+
+    // public function findByExampleField($value)
+    // {
+
+    //     return $this->createQueryBuilder('a')
+    //         ->andWhere('a.exampleField = :val')
+    //         ->setParameter('val', $value)
+    //         ->orderBy('a.id', 'ASC')
+    //         ->setMaxResults(4)
+    //         ->getQuery()
+    //         ->getResult();
+    // }
+
+
 
     /*
     public function findOneBySomeField($value): ?Article
@@ -46,5 +57,15 @@ class ArticleRepository extends ServiceEntityRepository
             ->getOneOrNullResult()
         ;
     }
+    ---
+
+     $qb = $this
+    ->createQueryBuilder('u')
+    ->select('u')
+    ->where('u.article =  $article' )
+    ->setMaxResults(4);
+ 
+ 
+    return $qb->getQuery()->getResult();
     */
 }

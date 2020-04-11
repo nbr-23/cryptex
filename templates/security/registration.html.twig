@@ -1,15 +1,81 @@
- {% extends "base.html.twig" %} 
- {% block body %}
-     <h1>Bonjour à tous !</h1>
+{% extends "base.html.twig" %}
+{% block body %}
 
-     {{form_start(form)}}
+<header class="masthead" style="background-image: url('img/post-bg.jpg')">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <div class="post-heading">
+                    <h1>Inscription</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- Main Content -->
+<hr>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
 
-     {{form_row(form.username, {'label' : 'Nom d\'utilisateur', 'attr' : {'placeholder' : 'Nom d\'utilisateur'}})}}
-     {{form_row(form.email, {'label' : 'Email', 'attr' : {'placeholder' : 'Adresse email'}})}}
-     {{form_row(form.password, {'label' : 'Mot de passe', 'attr' : {'placeholder' : 'Mot de passe'}})}}
-     {{form_row(form.confirm_password, {'label' : 'Confirmation', 'attr' : {'placeholder' : 'Confirmation du mot de passe'}})}}
 
-     <button type="submit" class="btn btn-success">Inscription</button>
+            {{form_start(form)}}
 
-     {{form_end(form)}}
- {% endblock body %}
+            {{form_row(form.username, {'label' : 'Nom d\'utilisateur', 'attr' : {'placeholder' : 'Nom d\'utilisateur'}})}}
+            {{form_row(form.email, {'label' : 'Email', 'attr' : {'placeholder' : 'Adresse email'}})}}
+            {{form_row(form.password, {'label' : 'Mot de passe', 'attr' : {'placeholder' : 'Mot de passe'}})}}
+            {{form_row(form.confirm_password, {'label' : 'Confirmation', 'attr' : {'placeholder' : 'Confirmation du mot de passe'}})}}
+       
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary" id="sendMessageButton">Inscription</button>
+            </div>
+            {{form_end(form)}}
+            <hr>
+            <div>
+                <p>Déja inscrit ? <a href="{{ path('security_login')}}">Se connecter</a></p>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<hr>
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <ul class="list-inline text-center">
+                    <li class="list-inline-item">
+                        <a href="#">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="#">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="#">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+                <p class="copyright text-muted">Copyright &copy; Blog 2020</p>
+            </div>
+        </div>
+    </div>
+</footer>
+{% endblock body %}

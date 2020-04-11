@@ -1,44 +1,111 @@
 {% extends "base.html.twig" %}
 
 {% block body %}
-<section class="articles">
-    <article>
-        <h2>{{article.title}}</h2>
-        <div class="metadata">Ecrit le {{article.createdAt | date('d/m/Y')}} à {{article.createdAt | date('H:i')}} dans la catégorie {{article.category.title}}</div>
-        <div class="content">
-            <img src="{{article.image}}" alt="">
-            {{article.content | raw}}
-        </div>
-        <hr>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Id earum, assumenda eius cumque exercitationem, odio iure amet distinctio quam impedit inventore eum officiis, repellat aliquid beatae quisquam saepe. Veritatis hic nemo veniam provident omnis minima iusto. Autem voluptatibus placeat odit, nam consectetur odio minus laborum? Id blanditiis architecto nisi tempora.</p>
-        <p>Illo aut tempore atque omnis temporibus enim voluptatem vitae rerum ut autem veniam ab, quibusdam praesentium maxime, labore odit animi. Modi excepturi est voluptas voluptatibus vitae quo soluta deleniti, veritatis delectus in assumenda fugit necessitatibus, molestiae, dolorem earum odio animi cupiditate? Commodi dolor maiores fuga optio dignissimos dolores delectus rem!</p>
-    </article>
-    <section id="commentaires">
-        <h2> {{ article.comments | length }} - COMMENTAIRES :</h2>
-        {% for comment in article.comments %}
-        <div class="comment">
-            <div class="row">
-                <div class="col-12">
-                    ----------- {{comment.author}} <br/>(<small>{{comment.createdAt |date('d/m/Y à H:i') }}</small>)
-                </div>
-                <div class="col">
-                    {{comment.content | raw}}
+
+<!-- Page Header -->
+
+<header class="masthead" style="background-color:black;">
+    <div class="overlay"></div>
+    <div class="container"> 
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <div class="post-heading">
+                    <h2 class="subheading">{{article.title}}</h2>
+                    <div>
+                        <section class="articles masthead">
+                            <article class="jumbotron">
+                                <a href="{{path('blog_edit',  {'id': article.id})}}"
+                                    class="btn btn-primary bouton-2">Editer</a>
+
+                                <div class="metadata">Ecrit le {{article.createdAt | date('d/m/Y')}} à
+                                    {{article.createdAt | date('H:i')}} dans la catégorie {{article.category.title}}
+                                </div>
+                                <div class="content">
+                                    <img src="{{article.image}}" class="img-fluid" alt="Responsive img">
+                                    {{article.content | raw}}
+                                </div>
+                                <hr>
+                            </article>
+                        </section>
+                        <section id="commentaires" class=" masthead">
+                            <h2 class="jumbotron comment"> {{ article.comments | length }} COMMENTAIRES :</h2>
+                            {% for comment in article.comments %}
+                            <div class="jumbotron comment">
+                                <div class="row">
+                                    <div class="col-12">
+                                        {{comment.author}}
+                                        <br />(<small>{{comment.createdAt |date('d/m/Y à H:i') }}</small>)
+                                    </div>
+                                    <div class="col">
+                                        {{comment.content | raw}}
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                            <hr>
+                            {% if app.user %}
+                            <div class="jumbotron">
+                            <h2>Laisser un commentaire :</h2>
+                            {{form_start(commentForm)}}
+                            {{form_row(commentForm.author, {'label': "Nom",'attr': {'placeholder': "Votre nom"}})}}
+                            {{form_row(commentForm.content, {'label': "Commentaire",'attr': {'placeholder': "Message"}})}}
+                            <button type="submit" class="btn btn-success">Envoyer</button>
+                            {{form_end(commentForm)}}
+                            </div>
+                            {% else %}
+                            <div class="jumbotron">
+                                <h2>Connectez-vous pour commenter</h2>
+                                <a href="{{path('security_login')}}" class="btn btn-primary">Connexion</a>
+                            </div>
+                            {% endif %}
+                        </section>
+                    </div>
                 </div>
             </div>
         </div>
-        {% endfor %}
-        {% if app.user %}
-            
-    
-        {{form_start(commentForm)}}
-        {{form_row(commentForm.author, {'attr': {'placeholder': "Votre nom"}})}}
-        {{form_row(commentForm.content, {'attr': {'placeholder': "Message"}})}}
-        <button type="submit" class="btn btn-success">Envoyer</button>
-        {{form_end(commentForm)}}
-        {% else %}
-        <h2>Connectez-vous pour commenter</h2>
-        <a href="{{path('security_login')}}" class="btn btn-primary">Connexion</a>
-        {% endif %}
-    </section>
-</section>
+    </div>
+</header>
+<hr>
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <ul class="list-inline text-center">
+                    <li class="list-inline-item">
+                        <a href="#">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="#">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="#">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+                <p class="copyright text-muted">Copyright &copy; Cryptex 2020</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+
+
+
+
 {% endblock body %}

@@ -12,28 +12,38 @@ use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Form\ArticleType;
 use App\Form\CommentType;
+use Knp\Component\Pager\PaginatorInterface;
 
 class DefaultController extends AbstractController
 {
     /**
-     * @Route("/", name="default")
+     * @Route("/article_list", name="default")
      */
-    public function index(ArticleRepository $repo)
+    public function index(ArticleRepository $repo, Request $request, PaginatorInterface $paginator)
     {
 
         $articles = $repo->findAll();
+        $articles = $paginator->paginate(
+            $articles,
+            $request->query->getInt('page', 1),
+            4
+        );
         return $this->render('default/index.html.twig', [
             'controller_name' => 'DefaultController',
             'articles' => $articles
         ]);
+        
     }
 
     /**
-     * @Route("/home", name="home")
+     * @Route("/", name="home")
      */
-    public function home()
+    public function home(ArticleRepository $repo)
     {
-        return $this->render('default/home.html.twig');
+        $articles = $repo->setMax();
+        return $this->render('default/home.html.twig', [
+            'articles' => $articles
+        ]);
     }
 
     /**
